@@ -1,0 +1,10 @@
+{
+    "name": "pilux",
+    "description": "Node server to control RPi LED's",
+    "version": "0.0.1",
+    "dependencies": {
+        "express": "4.x",
+        "jade": "1.3.1",
+        "pi-gpio": "0.0.5"
+    }
+}
