@@ -7,9 +7,11 @@ app.engine('html', require('jade').renderFile);
 
 app.route('/')
     .get(function(req, res) {
-        res.render('views/index.html', function(err, html) {
-
+        // res.send('poop');
+        res.render('index.jade', function(err, html) {
+            console.log(err);
+            res.send(html);
         });
     });
 
-app.listen(8000);
+app.listen(3000);
