@@ -44,31 +44,29 @@ function light(r,g,b) {
 
 // fades one color up or down, starting from state and ending at 0 | 100
 function fade(color, state, up, delay, next) {
-    console.log('Color=  ' + color + '\n' +
-                'State=  ' + state + '\n' +
-                'Up=   ' + up  + '\n' +
-                'Delay=  ' + delay + '\n'
-                );
+    // console.log('Color = ' + color + '\n' +
+    //             'State = ' + state + '\n' +
+    //             'Up    =  ' + up  + '\n' +
+    //             'Delay = ' + delay + '\n'
+    //             );
     if (up) {
         setTimeout(function() {
-            ledHandle[color](state + 1);
             if (state !== 100) {
-                fade(color, state + 1, 1, delay);
+                ledHandle[color](state + 1);
+                fade(color, state + 1, 1, delay, next);
             } else {
                 if (next) {
-                    console.log('==========NEXT==========');
                     fade(next.color, next.state, next.up, next.delay, next.next);
                 }
             }
         }, delay);
     } else {
         setTimeout(function() {
-            ledHandle[color](state - 1);
             if (state !== 0) {
-                fade(color, state - 1, 0, delay);
+                ledHandle[color](state - 1);
+                fade(color, state - 1, 0, delay, next);
             } else {
                 if (next) {
-                    console.log('==========NEXT==========');
                     fade(next.color, next.state, next.up, next.delay, next.next);
                 }
             }
@@ -77,12 +75,12 @@ function fade(color, state, up, delay, next) {
 }
  
 function transition(delay) {
-    var phase1 = { color: 'g', state: 0, up: 1, delay: delay, next: phase2};
-    var phase2 = { color: 'r', state: 100, up: 0, delay: delay, next: phase3};
-    var phase3 = { color: 'b', state: 0, up: 1, delay: delay, next: phase4};
-    var phase4 = { color: 'g', state: 100, up: 0, delay: delay, next: phase5};
-    var phase5 = { color: 'r', state: 0, up: 1, delay: delay, next: phase6};
     var phase6 = { color: 'g', state: 0, up: 1, delay: delay, next: null};
+    var phase5 = { color: 'r', state: 0, up: 1, delay: delay, next: phase6};
+    var phase4 = { color: 'g', state: 100, up: 0, delay: delay, next: phase5};
+    var phase3 = { color: 'b', state: 0, up: 1, delay: delay, next: phase4};
+    var phase2 = { color: 'r', state: 100, up: 0, delay: delay, next: phase3};
+    var phase1 = { color: 'g', state: 0, up: 1, delay: delay, next: phase2};
     fade('r', 0, 1, delay, phase1);
 }
 
