@@ -1,6 +1,6 @@
 'use strict';
 
-var lux = require('./lux.js');
+// var lux = require('./lux.js');
 
 var express = require('express');
 var session = require('express-session');
@@ -11,6 +11,7 @@ var app = express();
 app.use(cookieParser('secret'));
 app.use(session({cookie: { maxAge: 60000 }}));
 app.use(flash());
+app.use(express.static( __dirname + '/public'));
 
 app.engine('html', require('jade').renderFile);
 
@@ -29,13 +30,13 @@ app.route('/')
         console.log(req.query);
         if (req.query.color === 'greenon') {
             console.log('on');
-            lux.greenOn();
+            // lux.greenOn();
             req.flash('message', 'Green turned on! :D');
             res.redirect('/');
             // renderIndex(res, {status: 'Green turned on! :D'});
         } else if (req.query.color === 'greenoff') {
             console.log('off');
-            lux.greenOff();
+            // lux.greenOff();
             req.flash('message', 'Green turned off! D:');
             res.redirect('/');
             // renderIndex(res, {status: 'Green turned off! D:'});

@@ -1,3 +1,5 @@
+'use strict';
+
 // var gpio = require('pi-gpio');
 var piblaster = require('pi-blaster.js');
 
