@@ -7,8 +7,8 @@ html(lang="en")
     meta(name='author', content='Harvey Xia')
   body
       div.container
-        if status
-            h1= status
+        if message
+            h1= message
         form(name='greenOn', action='/?color=greenon', method='POST')
             input(type='submit', value='Green On')
         form(name='greenOff', action='/?color=greenoff', method='POST')

@@ -1,5 +1,13 @@
 var gpio = require('pi-gpio');
 
+function emit(rgb) {
+
+}
+
+function mapHex(hex) {
+
+}
+
 module.exports = {
     greenOn: function() {
         gpio.open(12, 'output', function(err){
