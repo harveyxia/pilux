@@ -1,7 +1,7 @@
 'use strict';
 
 $(document).ready(function() {
-    var socket = io.connect('http://localhost:3000');
+    var socket = io.connect('http://10.0.0.14:3000');
     // live updating upon slide
     $('#slider')[0].oninput = function() {
         console.log('message');

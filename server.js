@@ -1,6 +1,6 @@
 'use strict';
 
-// var lux = require('./lux.js');
+var lux = require('./lux.js');
 
 var express = require('express');
 var session = require('express-session');
@@ -34,24 +34,28 @@ app.route('/')
         // console.log(req.query);
         if (req.query.color === 'greenon') {
             console.log('on');
-            // lux.greenOn();
+            lux.greenOn(100);
             req.flash('message', 'Green turned on! :D');
             res.redirect('/');
             // renderIndex(res, {status: 'Green turned on! :D'});
         } else if (req.query.color === 'greenoff') {
             console.log('off');
-            // lux.greenOff();
+            lux.greenOn(0);
             req.flash('message', 'Green turned off! D:');
             res.redirect('/');
             // renderIndex(res, {status: 'Green turned off! D:'});
-        } else if (req.body) {
-            console.log(body);
+        } else if (req.query.color === 'off') {
+            console.log('turn all off');
+            lux.turnOff();
+            req.flash('message', 'Darkness.');
+            res.redirect('/');
         }
     });
 
 io.on('connection', function(socket) {
     socket.on('color', function(data) {
         console.log(data);
+        lux.mapColor(data.color);
     });
 });
 

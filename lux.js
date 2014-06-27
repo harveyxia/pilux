@@ -24,6 +24,12 @@ function blueOn(pwm) {
     // piblaster.releasePin(BLUE);
 }
 
+function turnOff() {
+    redOn(0);
+    blueOn(0);
+    greenOn(0);
+}
+
 var ledHandle = {
     'r': redOn,
     'g': greenOn,
@@ -69,19 +75,6 @@ function fade(color, state, up, delay, next) {
         }, delay);
     }
 }
-
-// function transitionHelper(r, g, b, down, up) {
-//     var delay = 50;
-//     console.log([r, g, b].join(','));
-//     var red = fade('r', r, 0, delay);
-    // if (r != 100) {
-    //     setTimeout(function() {
-    //         light(r,g,b);
-    //         transitionHelper(r+1, Math.min(g - 1. 0), b);
-    //     }, 50);
-    // }
-// }
-// transition(1, 1, 1);
  
 function transition(delay) {
     var phase1 = { color: 'g', state: 0, up: 1, delay: delay, next: phase2};
@@ -93,6 +86,20 @@ function transition(delay) {
     fade('r', 0, 1, delay, phase1);
 }
 
-module.exports = {
+function mapColor(i) {
+    if ( i <= 100 ) {
+        light(100, i, 0);
+    } else if ( i <= 200 ) {
+        light(200 - i, 100, 0);
+    } else if ( i <= 300 ) {
+        light(0, 100, i - 200);
+    } else {
+        light(0, 400 - i, 100);
+    }
+}
 
+module.exports = {
+    greenOn: greenOn,
+    mapColor: mapColor,
+    turnOff: turnOff
 }
