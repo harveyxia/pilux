@@ -44,6 +44,11 @@ app.route('/')
             req.flash('message', 'Green turned off! D:');
             res.redirect('/');
             // renderIndex(res, {status: 'Green turned off! D:'});
+        } else if (req.query.color === 'transition') {
+            console.log('transition');
+            lux.transition(10);
+            req.flash('message', 'Transition.');
+            res.redirect('/');
         } else if (req.query.color === 'off') {
             console.log('turn all off');
             lux.turnOff();

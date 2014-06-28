@@ -99,5 +99,6 @@ function mapColor(i) {
 module.exports = {
     greenOn: greenOn,
     mapColor: mapColor,
-    turnOff: turnOff
+    turnOff: turnOff,
+    transition: transition
 }
