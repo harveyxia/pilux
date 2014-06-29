@@ -29,7 +29,7 @@ $(document).ready(function() {
     });
     $('#set-color').click(function() {
         function validateRange(val) {
-            val = parseInt(val, 10);
+            val = parseFloat(val, 10);
             return Math.max(0, Math.min(100, val));
         }
         var r = validateRange($('#r-input').val()),

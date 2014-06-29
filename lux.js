@@ -104,6 +104,7 @@ function mapColor(i) {
 }
 
 module.exports = {
+    light: light,
     setGreen: setGreen,
     mapColor: mapColor,
     turnOff: turnOff,
