@@ -42,6 +42,10 @@ io.on('connection', function(socket) {
             lux.setColor(data.color, data.pwm);
             var message = 'Set ' + data.color + ' to ' + data.pwm;
             broadcastMessage(message);
+        } else if ( data.r !== undefined && data.g !== undefined && data.b !== undefined) {
+            console.log('Set color: ' + [data.r, data.g, data.b].join(','));
+            lux.light(data.r, data.g, data.b);
+            broadcastMessage('Set color: ' + [data.r, data.g, data.b].join(','));
         } else {
             // slider
             console.log(data);
@@ -58,9 +62,9 @@ io.on('connection', function(socket) {
     });
 
     socket.on('transition', function(data) {
-        console.log('transition');
+        console.log('transition ' + data.transition);
         lux.transition(data.delay);
-        broadcastMessage('Transitioning spiral');
+        broadcastMessage('Transitioning spiral by ' + data.transition + ' ms');
     });
 
 });

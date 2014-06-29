@@ -23,9 +23,20 @@ $(document).ready(function() {
     $('#green-off').click(function() {
         socket.emit('color', { color: 'g', pwm: 0 });
     });
-    // TODO: take user input for delay
     $('#transition').click(function() {
-        socket.emit('transition', { delay: 30 });
+        var delay = Math.max(0, parseInt($('#transition-input').val()));
+        socket.emit('transition', { delay: delay });
+    });
+    $('#set-color').click(function() {
+        function validateRange(val) {
+            val = parseInt(val, 10);
+            return Math.max(0, Math.min(100, val));
+        }
+        var r = validateRange($('#r-input').val()),
+            g = validateRange($('#g-input').val()),
+            b = validateRange($('#b-input').val());
+        console.log([r, g, b]);
+        socket.emit('color', { r: r, g: g, b: b });
     });
     $('#all-off').click(function() {
         socket.emit('off', {});

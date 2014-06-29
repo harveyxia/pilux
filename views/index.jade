@@ -14,7 +14,14 @@ html(lang="en")
       div(id='message')
       button(type='button', id='green-on') Green On
       button(type='button', id='green-off') Green Off
-      button(type='button', id='transition') Transition
       button(type='button', id='all-off') All Off
+      form
+        input(type='text', id='transition-input', placeholder='Delay in ms')
+        button(type='button', id='transition') Transition
+      form
+        input(type='text', id='r-input', placeholder='R (0-100)')
+        input(type='text', id='g-input', placeholder='G (0-100)')
+        input(type='text', id='b-input', placeholder='B (0-100)')
+        button(type='button', id='set-color') Set Color
       div
         input#slider(type='range', min='0', max='400', value='0')
