@@ -1,3 +1,7 @@
 #slider {
     width: 500px;
 }
+
+#message {
+    display: none;
+}

@@ -21,7 +21,7 @@ app.engine('html', require('jade').renderFile);
 
 app.route('/')
     .get(function(req, res) {
-        res.render('index.jade', { message: req.flash('message') },
+        res.render('index.jade', {},
             function(err, html) {
                 if (err) {
                     console.log(err);
@@ -29,39 +29,40 @@ app.route('/')
                     res.send(html);
                 }
             });
-    })
-    .post(function(req, res) {
-        // console.log(req.query);
-        if (req.query.color === 'greenon') {
-            console.log('on');
-            lux.greenOn(100);
-            req.flash('message', 'Green turned on! :D');
-            res.redirect('/');
-            // renderIndex(res, {status: 'Green turned on! :D'});
-        } else if (req.query.color === 'greenoff') {
-            console.log('off');
-            lux.greenOn(0);
-            req.flash('message', 'Green turned off! D:');
-            res.redirect('/');
-            // renderIndex(res, {status: 'Green turned off! D:'});
-        } else if (req.query.color === 'transition') {
-            console.log('transition');
-            lux.transition(10);
-            req.flash('message', 'Transition.');
-            res.redirect('/');
-        } else if (req.query.color === 'off') {
-            console.log('turn all off');
-            lux.turnOff();
-            req.flash('message', 'Darkness.');
-            res.redirect('/');
-        }
     });
+
+function broadcastMessage(message) {
+    console.log('Broadcasting message: ' + message);
+    io.sockets.emit('message', { message: message });
+}
 
 io.on('connection', function(socket) {
     socket.on('color', function(data) {
-        console.log(data);
-        lux.mapColor(data.color);
+        if (data.color && data.pwm) {
+            lux.setColor(data.color, data.pwm);
+            var message = 'Set ' + data.color + ' to ' + data.pwm;
+            broadcastMessage(message);
+        } else {
+            // slider
+            console.log(data);
+            lux.mapColor(data.lightVal);
+            // update slider of all clients
+            socket.broadcast.emit('transition', { lightVal: data.lightVal } );
+        }
     });
+
+    socket.on('off', function(data) {
+        console.log('Darkness.');
+        lux.turnOff();
+        broadcastMessage('Darkness');
+    });
+
+    socket.on('transition', function(data) {
+        console.log('transition');
+        lux.transition(data.delay);
+        broadcastMessage('Transitioning spiral');
+    });
+
 });
 
 server.listen(3000);

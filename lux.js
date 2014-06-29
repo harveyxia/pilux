@@ -1,6 +1,5 @@
 'use strict';
 
-// var gpio = require('pi-gpio');
 var piblaster = require('pi-blaster.js');
 
 // GPIO numbers for RGB wiring
@@ -8,38 +7,46 @@ var RED = 18,
     GREEN = 23,
     BLUE = 24;
 
-// 0 <= pwm <= 1
-function redOn(pwm) {
+// 0 <= pwm <= 100
+function setRed(pwm) {
     piblaster.setPwm(RED, pwm/100);
     // piblaster.releasePin(RED);
 }
 
-function greenOn(pwm) {
+function setGreen(pwm) {
     piblaster.setPwm(GREEN, pwm/100);
     // piblaster.releasePin(GREEN);
 }
 
-function blueOn(pwm) {
+function setBlue(pwm) {
     piblaster.setPwm(BLUE, pwm/100);
     // piblaster.releasePin(BLUE);
 }
 
 function turnOff() {
-    redOn(0);
-    blueOn(0);
-    greenOn(0);
+    setRed(0);
+    setBlue(0);
+    setGreen(0);
 }
 
-var ledHandle = {
-    'r': redOn,
-    'g': greenOn,
-    'b': blueOn
+function setColor(color, pwm) {
+    switch(color) {
+        case 'r':
+            setRed(pwm);
+            break;
+        case 'g':
+            setGreen(pwm);
+            break;
+        case 'b':
+            setBlue(pwm);
+            break;
+    }
 }
 
 function light(r,g,b) {
-    ledHandle.r(r);
-    ledHandle.g(g);
-    ledHandle.b(b);
+    setColor('r', r);
+    setColor('g', g);
+    setColor('b', b);
 }
 
 // fades one color up or down, starting from state and ending at 0 | 100
@@ -52,7 +59,7 @@ function fade(color, state, up, delay, next) {
     if (up) {
         setTimeout(function() {
             if (state !== 100) {
-                ledHandle[color](state + 1);
+                setColor(color, state + 1);
                 fade(color, state + 1, 1, delay, next);
             } else {
                 if (next) {
@@ -63,7 +70,7 @@ function fade(color, state, up, delay, next) {
     } else {
         setTimeout(function() {
             if (state !== 0) {
-                ledHandle[color](state - 1);
+                setColor(color, state - 1);
                 fade(color, state - 1, 0, delay, next);
             } else {
                 if (next) {
@@ -97,8 +104,9 @@ function mapColor(i) {
 }
 
 module.exports = {
-    greenOn: greenOn,
+    setGreen: setGreen,
     mapColor: mapColor,
     turnOff: turnOff,
-    transition: transition
+    transition: transition,
+    setColor: setColor
 }

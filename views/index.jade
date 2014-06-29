@@ -11,15 +11,10 @@ html(lang="en")
     link(rel='stylesheet', href='css/index.css', type='text/css')
   body
     div#container
-      if message
-        h1= message
-      form(name='greenOn', action='/?color=greenon', method='POST')
-        input(type='submit', value='Green On')
-      form(name='greenOff', action='/?color=greenoff', method='POST')
-        input(type='submit', value='Green Off')
-      form(name='greenOff', action='/?color=transition', method='POST')
-        input(type='submit', value='Transition')
-      form(name='greenOff', action='/?color=off', method='POST')
-        input(type='submit', value='All Off')
+      div(id='message')
+      button(type='button', id='green-on') Green On
+      button(type='button', id='green-off') Green Off
+      button(type='button', id='transition') Transition
+      button(type='button', id='all-off') All Off
       div
         input#slider(type='range', min='0', max='400', value='0')
