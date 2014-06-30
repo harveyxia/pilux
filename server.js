@@ -38,7 +38,7 @@ function broadcastMessage(message) {
 
 io.on('connection', function(socket) {
     socket.on('color', function(data) {
-        if (data.color && data.pwm) {
+        if (data.color && data.pwm !== undefined) {
             lux.setColor(data.color, data.pwm);
             var message = 'Set ' + data.color + ' to ' + data.pwm;
             broadcastMessage(message);
